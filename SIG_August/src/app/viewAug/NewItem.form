@@ -103,17 +103,11 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Save"/>
       </Properties>
-      <AuxValues>
-        <AuxValue name="JavaCodeGenerator_CreateCodePost" type="java.lang.String" value="Savebtn.addActionListener(myAction);&#xd;&#xa;"/>
-      </AuxValues>
     </Component>
     <Component class="javax.swing.JButton" name="Cancelbtn">
       <Properties>
         <Property name="text" type="java.lang.String" value="Cancel"/>
       </Properties>
-      <AuxValues>
-        <AuxValue name="JavaCodeGenerator_CreateCodePost" type="java.lang.String" value="Cancelbtn.addActionListener(myAction);&#xd;&#xa;"/>
-      </AuxValues>
     </Component>
   </SubComponents>
 </Form>

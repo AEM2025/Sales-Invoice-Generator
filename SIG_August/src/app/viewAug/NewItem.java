@@ -4,7 +4,6 @@ import javax.swing.JTextField;
 public class NewItem extends javax.swing.JFrame {
 
     public NewItem() {
-        Actions myAction=new Actions(this);
 
         initComponents();
     }
@@ -19,9 +18,7 @@ public class NewItem extends javax.swing.JFrame {
         PriceTxt = new javax.swing.JTextField();
         CountTxt = new javax.swing.JTextField();
         Savebtn = new javax.swing.JButton();
-        Savebtn.addActionListener(myAction);
         Cancelbtn = new javax.swing.JButton();
-        Cancelbtn.addActionListener(myAction);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
