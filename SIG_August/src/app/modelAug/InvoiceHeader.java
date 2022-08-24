@@ -1,10 +1,12 @@
+
 package app.modelAug;
 
 import java.util.ArrayList;
 import java.util.Date;
+
 public class InvoiceHeader {
-    private String name;
     private int num;
+    private String name;
     private Date date;
     private ArrayList<InvoiceItem> Items; 
 
@@ -39,12 +41,9 @@ public class InvoiceHeader {
     }
 
     public ArrayList<InvoiceItem> getItems() {
-        
         if (Items == null)
         {
-            Items = new ArrayList();
-        
-        
+            Items = new ArrayList(); // Lazy creation       
         }
         return Items;
     }

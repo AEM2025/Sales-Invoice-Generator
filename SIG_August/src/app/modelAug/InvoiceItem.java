@@ -51,7 +51,6 @@ public class InvoiceItem {
  
     public double getTotal()
     {
-    
         return count*price;
     }
 }
