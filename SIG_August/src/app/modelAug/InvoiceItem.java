@@ -53,4 +53,9 @@ public class InvoiceItem {
     {
         return count*price;
     }
+    
+    public String getDataCSV()
+    {
+        return "" + getInv().getNum() + ","+ getItem() + ","+ getPrice() +","+ getCount(); 
+    }
 }

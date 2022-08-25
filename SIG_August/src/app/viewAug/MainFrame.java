@@ -288,6 +288,7 @@ public class MainFrame extends javax.swing.JFrame implements ActionListener, Lis
                 break;
 
             case "Delete Invoice":
+                deleteInvoice();
                 break;
 
             case "Create New Item":
@@ -300,6 +301,7 @@ public class MainFrame extends javax.swing.JFrame implements ActionListener, Lis
                 createItemOk();
                 break;
             case "Delete Item":
+                deleteItem();
                 break;
 
         }
@@ -420,7 +422,7 @@ public class MainFrame extends javax.swing.JFrame implements ActionListener, Lis
         newInvoiceDialog = new NewHeaderFrame(this);
         newInvoiceDialog.setVisible(true);
     }
-   
+
     private void newItemDialog() {
         newItemDialog = new NewItemFrame(this);
         newItemDialog.setVisible(true);
@@ -436,9 +438,9 @@ public class MainFrame extends javax.swing.JFrame implements ActionListener, Lis
     private void createItemCancel() {
         newItemDialog.setVisible(false);
         newItemDialog.dispose();
-        newItemDialog = null;    
+        newItemDialog = null;
     }
-    
+
     private void createInvoiceOk() {
 
         String customerName = newInvoiceDialog.getCustomerNameTxt().getText();
@@ -457,28 +459,33 @@ public class MainFrame extends javax.swing.JFrame implements ActionListener, Lis
             ex.printStackTrace();
 
         }
+        displayHeaders();
     }
-    
+
     private void createItemOk() {
         String itemName = newItemDialog.getItemNameTxt().getText();
         String str_ItemPrice = newItemDialog.getItemPriceTxt().getText();
         String str_ItemCount = newItemDialog.getItemCountTxt().getText();
-        
+
         newItemDialog.setVisible(false);
         newItemDialog.dispose();
         newItemDialog = null;
-        
+
         int int_ItemCount = Integer.parseInt(str_ItemCount);
         double db_ItemPrice = Double.parseDouble(str_ItemPrice);
         int headerIdx = headerTable.getSelectedRow();
         InvoiceHeader inv = InvoiceHeaderTable.getAllInvList().get(headerIdx);
-        
-        InvoiceItem invoiceItem = new InvoiceItem(inv, itemName, int_ItemCount,db_ItemPrice);
+
+        InvoiceItem invoiceItem = new InvoiceItem(inv, itemName, int_ItemCount, db_ItemPrice);
         inv.addNewItem(invoiceItem);
-        
+
         InvoiceItemsTable.fireTableDataChanged();
+
+        InvoiceHeaderTable.fireTableDataChanged();
+        InvoiceTotalTxt.setText("" + inv.getTotal());
+        displayHeaders();
     }
-    
+
     private int getNextInvoiceCounter() {
         int maxNumber = 0;
         for (InvoiceHeader hd : allInvList) {
@@ -490,4 +497,39 @@ public class MainFrame extends javax.swing.JFrame implements ActionListener, Lis
         return maxNumber + 1;
     }
 
+    private void deleteItem() {
+        int itemIdx = ItemsTable.getSelectedRow();
+        InvoiceItem item = InvoiceItemsTable.getAllItemList().get(itemIdx);
+        InvoiceItemsTable.getAllItemList().remove(itemIdx);
+        InvoiceItemsTable.fireTableDataChanged();
+
+        InvoiceHeaderTable.fireTableDataChanged();
+        InvoiceTotalTxt.setText("" + item.getInv().getTotal());
+        displayHeaders();
+    }
+
+    private void deleteInvoice() {
+
+        int headerIdx = headerTable.getSelectedRow();
+        InvoiceHeader hd = InvoiceHeaderTable.getAllInvList().get(headerIdx);
+        InvoiceHeaderTable.getAllInvList().remove(hd);
+        InvoiceHeaderTable.fireTableDataChanged();
+        InvoiceItemsTable = new InvoiceItemsTable(new ArrayList<InvoiceItem>());
+        InvoiceItemsTable.fireTableDataChanged();
+
+        CustomerNameTxt.setText("");
+        InvoiceDateTxt.setText("");
+        InvoiceNumberTxt.setText("");
+        InvoiceTotalTxt.setText("");
+        displayHeaders();
+    }
+
+    private void displayHeaders() {
+        System.out.println("**********************************");
+        for (InvoiceHeader hd : allInvList) {
+            System.out.println(hd);
+        }
+        System.out.println("====================================");
+
+    }
 }

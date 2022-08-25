@@ -50,7 +50,14 @@ public class InvoiceHeader {
 
     @Override
     public String toString() {
-        return "InvoiceHeader{" + "name=" + name + ", num=" + num + ", date=" + date + '}';
+        String str_var="InvoiceHeader{" + "name=" + name + ", num=" + num + ", date=" + date + '}';
+        for(InvoiceItem item: getItems())
+        {
+            str_var += "\n\t" + item;
+        
+        
+        }
+        return str_var;
     }
 
     public double getTotal(){
@@ -68,6 +75,10 @@ public class InvoiceHeader {
     
     public void addNewItem(InvoiceItem item) {
         getItems().add(item);
+    }
+    public String getDataCSV()
+    {
+        return "" + getNum() + "," + getDate() + "," + getName(); 
     }
 
 }
