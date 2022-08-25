@@ -4,6 +4,7 @@ package app.viewAug;
 import app.modelAug.InvoiceHeader;
 import app.modelAug.InvoiceItem;
 import app.modelAug.InvoiceHeaderTable;
+import app.modelAug.InvoiceItemsTable;
 
 // Working with Files
 import java.io.File;
@@ -18,6 +19,7 @@ import java.awt.event.WindowEvent;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -26,12 +28,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.event.ListSelectionEvent;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.event.ListSelectionListener;
+
 //////////////////////////////////////////////////////////////
-
 //import app.controlAug.Actions;
-
-public class MainFrame extends javax.swing.JFrame implements ActionListener {
+public class MainFrame extends javax.swing.JFrame implements ActionListener, ListSelectionListener {
 
     public MainFrame() {
         initComponents();
@@ -43,12 +46,12 @@ public class MainFrame extends javax.swing.JFrame implements ActionListener {
 
         jScrollPane2 = new javax.swing.JScrollPane();
         ItemsTable = new javax.swing.JTable();
-        Savebtn = new javax.swing.JButton();
-        Savebtn.addActionListener(this);
+        createNewItemBtn = new javax.swing.JButton();
+        createNewItemBtn.addActionListener(this);
         CreateInvoicebtn = new javax.swing.JButton();
         CreateInvoicebtn.addActionListener(this);
-        Cancelbtn = new javax.swing.JButton();
-        Cancelbtn.addActionListener(this);
+        deleteItemBtn = new javax.swing.JButton();
+        deleteItemBtn.addActionListener(this);
         DeleteInvoicebtn = new javax.swing.JButton();
         DeleteInvoicebtn.addActionListener(this);
         InvoiceNumberLabel = new javax.swing.JLabel();
@@ -61,6 +64,7 @@ public class MainFrame extends javax.swing.JFrame implements ActionListener {
         InvoiceTotalTxt = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         headerTable = new javax.swing.JTable();
+        headerTable.getSelectionModel().addListSelectionListener(this);
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         LoadMenuItem = new javax.swing.JMenuItem();
@@ -80,11 +84,11 @@ public class MainFrame extends javax.swing.JFrame implements ActionListener {
         ));
         jScrollPane2.setViewportView(ItemsTable);
 
-        Savebtn.setText("Save");
+        createNewItemBtn.setText("Create New Item");
 
         CreateInvoicebtn.setText("Create New Invoice");
 
-        Cancelbtn.setText("Cancel");
+        deleteItemBtn.setText("Delete Item");
 
         DeleteInvoicebtn.setText("Delete Invoice");
 
@@ -96,13 +100,9 @@ public class MainFrame extends javax.swing.JFrame implements ActionListener {
 
         CustomerNameLabel.setText("Customer Name");
 
-        InvoiceNumberTxt.setText(".");
+        InvoiceNumberTxt.setEditable(false);
 
-        InvoiceDateTxt.setText(".");
-
-        CustomerNameTxt.setText(".");
-
-        InvoiceTotalTxt.setText(".");
+        InvoiceTotalTxt.setEditable(false);
 
         headerTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -159,9 +159,9 @@ public class MainFrame extends javax.swing.JFrame implements ActionListener {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(DeleteInvoicebtn)
                         .addGap(175, 175, 175)
-                        .addComponent(Savebtn)
+                        .addComponent(createNewItemBtn)
                         .addGap(62, 62, 62)
-                        .addComponent(Cancelbtn)
+                        .addComponent(deleteItemBtn)
                         .addGap(70, 70, 70))))
         );
         layout.setVerticalGroup(
@@ -190,16 +190,13 @@ public class MainFrame extends javax.swing.JFrame implements ActionListener {
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 410, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(Cancelbtn)
-                            .addComponent(Savebtn))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(DeleteInvoicebtn)
-                            .addComponent(CreateInvoicebtn))
-                        .addGap(55, 104, Short.MAX_VALUE))))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(deleteItemBtn)
+                        .addComponent(createNewItemBtn))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(DeleteInvoicebtn)
+                        .addComponent(CreateInvoicebtn)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -229,7 +226,6 @@ public class MainFrame extends javax.swing.JFrame implements ActionListener {
         //</editor-fold>
 
         /* Create and display the form */
-
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new MainFrame().setVisible(true);
@@ -238,7 +234,6 @@ public class MainFrame extends javax.swing.JFrame implements ActionListener {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton Cancelbtn;
     private javax.swing.JButton CreateInvoicebtn;
     private javax.swing.JLabel CustomerNameLabel;
     private javax.swing.JTextField CustomerNameTxt;
@@ -252,7 +247,8 @@ public class MainFrame extends javax.swing.JFrame implements ActionListener {
     private javax.swing.JTable ItemsTable;
     private javax.swing.JMenuItem LoadMenuItem;
     private javax.swing.JMenuItem SaveMenuItem;
-    private javax.swing.JButton Savebtn;
+    private javax.swing.JButton createNewItemBtn;
+    private javax.swing.JButton deleteItemBtn;
     private javax.swing.JTable headerTable;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
@@ -262,7 +258,10 @@ public class MainFrame extends javax.swing.JFrame implements ActionListener {
     private List<InvoiceHeader> allInvList = new ArrayList<>();
     private InvoiceHeaderTable InvoiceHeaderTable;
     private DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
-        
+    private InvoiceItemsTable InvoiceItemsTable;
+    private NewHeaderFrame newInvoiceDialog;
+    private NewItemFrame newItemDialog;
+
     @Override
     public void actionPerformed(ActionEvent e) {
 
@@ -277,25 +276,35 @@ public class MainFrame extends javax.swing.JFrame implements ActionListener {
                 break;
 
             case "Create New Invoice":
-           
+                newInvoiceDialog();
+                break;
+
+            case "createInvoiceCancel":
+                createInvoiceCancel();
+                break;
+
+            case "createInvoiceOk":
+                createInvoiceOk();
+                break;
+
             case "Delete Invoice":
-            
-            case "Save":
-            
-            case "Cancel":
+                break;
+
+            case "Create New Item":
+                newItemDialog();
+                break;
+            case "createItemCancel":
+                createItemCancel();
+                break;
+            case "createItemOk":
+                createItemOk();
+                break;
+            case "Delete Item":
+                break;
+
         }
 
     }
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
 
     private void loadFile() {
         /////////////////////// Select Header File
@@ -309,7 +318,7 @@ public class MainFrame extends javax.swing.JFrame implements ActionListener {
                 FileReader HeaderFRead = new FileReader(headerFile);
                 BufferedReader headerBRead = new BufferedReader(HeaderFRead);
                 String headerLines = null;
-                
+
                 while ((headerLines = headerBRead.readLine()) != null) {
                     String[] headerItems = headerLines.split(",");
 
@@ -330,11 +339,11 @@ public class MainFrame extends javax.swing.JFrame implements ActionListener {
                 ////////////////// Select Items File    
                 JOptionPane.showMessageDialog(this, "Please select Items file", "Attention", JOptionPane.INFORMATION_MESSAGE);
                 //JFileChooser openMyFileItem = new JFileChooser();
-                
+
                 choice = openMyFile.showOpenDialog(this);
                 if (choice == JFileChooser.APPROVE_OPTION) {
                     File itemsFile = openMyFile.getSelectedFile();
-                    
+
                     BufferedReader itemsBRead = new BufferedReader(new FileReader(itemsFile));
                     String itemsLines = null;
                     while ((itemsLines = itemsBRead.readLine()) != null) {
@@ -343,14 +352,13 @@ public class MainFrame extends javax.swing.JFrame implements ActionListener {
 
                         String str_InvoiceNumber = headerItems[0];
                         String str_ItemName = headerItems[1];
-                        String str_ItemsPrice = headerItems[2];                     
+                        String str_ItemsPrice = headerItems[2];
                         String str_ItemCount = headerItems[3];
-                        
+
                         int int_InvoiceNumber = Integer.parseInt(str_InvoiceNumber);
 
                         int int_ItemCount = Integer.parseInt(str_ItemCount);
                         double db_ItemPrice = Double.parseDouble(str_ItemsPrice);
-
 
                         InvoiceHeader hd = findInvoicesByNumber(int_InvoiceNumber);
                         InvoiceItem item = new InvoiceItem(hd, str_ItemName, int_ItemCount, db_ItemPrice);
@@ -359,10 +367,9 @@ public class MainFrame extends javax.swing.JFrame implements ActionListener {
                     InvoiceHeaderTable = new InvoiceHeaderTable(allInvList);
                     headerTable.setModel(InvoiceHeaderTable);
                     headerTable.validate();
-                
+
                 }
 
-                System.out.println("Debug");
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
@@ -370,8 +377,9 @@ public class MainFrame extends javax.swing.JFrame implements ActionListener {
     }
 
     private void saveFile() {
-        
+
     }
+
     private InvoiceHeader findInvoicesByNumber(int invoiceNumber) {
         InvoiceHeader hd = null;
         for (InvoiceHeader invoice : allInvList) {
@@ -384,5 +392,87 @@ public class MainFrame extends javax.swing.JFrame implements ActionListener {
         return hd;
     }
 
-}
+    @Override
+    public void valueChanged(ListSelectionEvent e) {
+        headerTableRowSelected();
 
+    }
+
+    private void headerTableRowSelected() {
+        int selectedIdx = headerTable.getSelectedRow();
+        if (selectedIdx >= 0) {
+            InvoiceHeader rw = InvoiceHeaderTable.getAllInvList().get(selectedIdx);
+            CustomerNameTxt.setText(rw.getName());
+            InvoiceDateTxt.setText(df.format(rw.getDate()));
+            InvoiceNumberTxt.setText("" + rw.getNum());
+            InvoiceTotalTxt.setText("" + rw.getTotal());
+
+            ArrayList<InvoiceItem> items = rw.getItems();
+            InvoiceItemsTable = new InvoiceItemsTable(items);
+            ItemsTable.setModel(InvoiceItemsTable); // InvoiceItemsTable
+            InvoiceItemsTable.fireTableDataChanged();
+
+        }
+
+    }
+
+    private void newInvoiceDialog() {
+        newInvoiceDialog = new NewHeaderFrame(this);
+        newInvoiceDialog.setVisible(true);
+    }
+
+    private void createInvoiceCancel() {
+        newInvoiceDialog.setVisible(false);
+        newInvoiceDialog.dispose();
+        newInvoiceDialog = null;
+
+    }
+
+    private void createInvoiceOk() {
+
+        String customerName = newInvoiceDialog.getCustomerNameTxt().getText();
+        String str_InvoiceDate = newInvoiceDialog.getInvoiceDate().getText();
+        newInvoiceDialog.setVisible(false);
+        newInvoiceDialog.dispose();
+        newInvoiceDialog = null;
+
+        try {
+            Date date_InvoiceDate = df.parse(str_InvoiceDate);
+            int invoiceNumber = getNextInvoiceCounter();
+            InvoiceHeader InvoiceHeader = new InvoiceHeader(customerName, invoiceNumber, date_InvoiceDate);
+            allInvList.add(InvoiceHeader);
+            InvoiceHeaderTable.fireTableDataChanged();
+        } catch (ParseException ex) {
+            ex.printStackTrace();
+
+        }
+    }
+
+    private int getNextInvoiceCounter() {
+        int maxNumber = 0;
+        for (InvoiceHeader hd : allInvList) {
+            if (hd.getNum() > maxNumber) {
+                maxNumber = hd.getNum();
+
+            }
+        }
+        return maxNumber + 1;
+    }
+
+    private void newItemDialog() 
+    {
+        newItemDialog = new NewItemFrame(this);
+        newItemDialog.setVisible(true);
+
+
+    }
+
+    private void createItemCancel() {
+        newItemDialog.setVisible(false);
+        newItemDialog.dispose();
+        newItemDialog = null;    }
+
+    private void createItemOk() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+}

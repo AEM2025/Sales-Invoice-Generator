@@ -52,6 +52,10 @@ public class InvoiceHeaderTable extends AbstractTableModel{
         }
     }
 
+    public List<InvoiceHeader> getAllInvList() {
+        return allInvList;
+    }
+
     @Override
     public Class<?> getColumnClass(int columnIndex) {
             switch (columnIndex) {
