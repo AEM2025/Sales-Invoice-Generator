@@ -420,6 +420,11 @@ public class MainFrame extends javax.swing.JFrame implements ActionListener, Lis
         newInvoiceDialog = new NewHeaderFrame(this);
         newInvoiceDialog.setVisible(true);
     }
+   
+    private void newItemDialog() {
+        newItemDialog = new NewItemFrame(this);
+        newItemDialog.setVisible(true);
+    }
 
     private void createInvoiceCancel() {
         newInvoiceDialog.setVisible(false);
@@ -428,6 +433,12 @@ public class MainFrame extends javax.swing.JFrame implements ActionListener, Lis
 
     }
 
+    private void createItemCancel() {
+        newItemDialog.setVisible(false);
+        newItemDialog.dispose();
+        newItemDialog = null;    
+    }
+    
     private void createInvoiceOk() {
 
         String customerName = newInvoiceDialog.getCustomerNameTxt().getText();
@@ -447,7 +458,27 @@ public class MainFrame extends javax.swing.JFrame implements ActionListener, Lis
 
         }
     }
-
+    
+    private void createItemOk() {
+        String itemName = newItemDialog.getItemNameTxt().getText();
+        String str_ItemPrice = newItemDialog.getItemPriceTxt().getText();
+        String str_ItemCount = newItemDialog.getItemCountTxt().getText();
+        
+        newItemDialog.setVisible(false);
+        newItemDialog.dispose();
+        newItemDialog = null;
+        
+        int int_ItemCount = Integer.parseInt(str_ItemCount);
+        double db_ItemPrice = Double.parseDouble(str_ItemPrice);
+        int headerIdx = headerTable.getSelectedRow();
+        InvoiceHeader inv = InvoiceHeaderTable.getAllInvList().get(headerIdx);
+        
+        InvoiceItem invoiceItem = new InvoiceItem(inv, itemName, int_ItemCount,db_ItemPrice);
+        inv.addNewItem(invoiceItem);
+        
+        InvoiceItemsTable.fireTableDataChanged();
+    }
+    
     private int getNextInvoiceCounter() {
         int maxNumber = 0;
         for (InvoiceHeader hd : allInvList) {
@@ -459,20 +490,4 @@ public class MainFrame extends javax.swing.JFrame implements ActionListener, Lis
         return maxNumber + 1;
     }
 
-    private void newItemDialog() 
-    {
-        newItemDialog = new NewItemFrame(this);
-        newItemDialog.setVisible(true);
-
-
-    }
-
-    private void createItemCancel() {
-        newItemDialog.setVisible(false);
-        newItemDialog.dispose();
-        newItemDialog = null;    }
-
-    private void createItemOk() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
 }

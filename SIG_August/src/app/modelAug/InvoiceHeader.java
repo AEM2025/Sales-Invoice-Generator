@@ -65,4 +65,9 @@ public class InvoiceHeader {
     
         
     }
+    
+    public void addNewItem(InvoiceItem item) {
+        getItems().add(item);
+    }
+
 }
