@@ -27,8 +27,8 @@ public class NewHeaderFrame extends JDialog
         okBtn = new JButton("Ok");
         cancelBtn = new JButton("Cancel");
         
-        cancelBtn.addActionListener(frame);
-        okBtn.addActionListener(frame);
+        cancelBtn.addActionListener(frame.getListner());
+        okBtn.addActionListener(frame.getListner());
         
         okBtn.setActionCommand("createInvoiceOk");
         cancelBtn.setActionCommand("createInvoiceCancel");

@@ -14,7 +14,7 @@
                 <Property name="text" type="java.lang.String" value="Load File"/>
               </Properties>
               <AuxValues>
-                <AuxValue name="JavaCodeGenerator_CreateCodePost" type="java.lang.String" value="LoadMenuItem.addActionListener(this);&#xd; "/>
+                <AuxValue name="JavaCodeGenerator_CreateCodePost" type="java.lang.String" value="LoadMenuItem.addActionListener(listner);&#xd; "/>
               </AuxValues>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="SaveMenuItem">
@@ -22,7 +22,7 @@
                 <Property name="text" type="java.lang.String" value="Save File"/>
               </Properties>
               <AuxValues>
-                <AuxValue name="JavaCodeGenerator_CreateCodePost" type="java.lang.String" value="SaveMenuItem.addActionListener(this);&#xd; "/>
+                <AuxValue name="JavaCodeGenerator_CreateCodePost" type="java.lang.String" value="SaveMenuItem.addActionListener(listner);&#xd; "/>
               </AuxValues>
             </MenuItem>
           </SubComponents>
@@ -165,7 +165,7 @@
         <Property name="text" type="java.lang.String" value="Create New Item"/>
       </Properties>
       <AuxValues>
-        <AuxValue name="JavaCodeGenerator_CreateCodePost" type="java.lang.String" value="createNewItemBtn.addActionListener(this);&#xd; "/>
+        <AuxValue name="JavaCodeGenerator_CreateCodePost" type="java.lang.String" value="createNewItemBtn.addActionListener(listner);&#xd; "/>
       </AuxValues>
     </Component>
     <Component class="javax.swing.JButton" name="CreateInvoicebtn">
@@ -173,7 +173,7 @@
         <Property name="text" type="java.lang.String" value="Create New Invoice"/>
       </Properties>
       <AuxValues>
-        <AuxValue name="JavaCodeGenerator_CreateCodePost" type="java.lang.String" value="CreateInvoicebtn.addActionListener(this);&#xd; "/>
+        <AuxValue name="JavaCodeGenerator_CreateCodePost" type="java.lang.String" value="CreateInvoicebtn.addActionListener(listner);&#xd; "/>
       </AuxValues>
     </Component>
     <Component class="javax.swing.JButton" name="deleteItemBtn">
@@ -181,7 +181,7 @@
         <Property name="text" type="java.lang.String" value="Delete Item"/>
       </Properties>
       <AuxValues>
-        <AuxValue name="JavaCodeGenerator_CreateCodePost" type="java.lang.String" value="deleteItemBtn.addActionListener(this);&#xd; "/>
+        <AuxValue name="JavaCodeGenerator_CreateCodePost" type="java.lang.String" value="deleteItemBtn.addActionListener(listner);&#xd; "/>
       </AuxValues>
     </Component>
     <Component class="javax.swing.JButton" name="DeleteInvoicebtn">
@@ -189,7 +189,7 @@
         <Property name="text" type="java.lang.String" value="Delete Invoice"/>
       </Properties>
       <AuxValues>
-        <AuxValue name="JavaCodeGenerator_CreateCodePost" type="java.lang.String" value="DeleteInvoicebtn.addActionListener(this);&#xd; "/>
+        <AuxValue name="JavaCodeGenerator_CreateCodePost" type="java.lang.String" value="DeleteInvoicebtn.addActionListener(listner);&#xd; "/>
       </AuxValues>
     </Component>
     <Component class="javax.swing.JLabel" name="InvoiceNumberLabel">
@@ -240,7 +240,7 @@
             </Property>
           </Properties>
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_CreateCodePost" type="java.lang.String" value="headerTable.getSelectionModel().addListSelectionListener(this);&#xd;&#xa;"/>
+            <AuxValue name="JavaCodeGenerator_CreateCodePost" type="java.lang.String" value="headerTable.getSelectionModel().addListSelectionListener(listner);&#xd; "/>
           </AuxValues>
         </Component>
       </SubComponents>
