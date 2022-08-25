@@ -18,6 +18,7 @@ import java.awt.event.WindowEvent;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -373,12 +374,52 @@ public class MainFrame extends javax.swing.JFrame implements ActionListener, Lis
                 }
 
             } catch (Exception ex) {
-                ex.printStackTrace();
+
+                JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
     }
 
     private void saveFile() {
+        String headerDT = "";
+        String itemsDT = "";
+        for (InvoiceHeader hd : allInvList) {
+            headerDT += hd.getDataCSV();
+            headerDT += "\n";
+            for (InvoiceItem item : hd.getItems()) {
+                itemsDT += item.getDataCSV();
+                itemsDT += "\n";
+            }
+        }
+        JOptionPane.showMessageDialog(this, "Please select location to save the header file!", "Attention", JOptionPane.INFORMATION_MESSAGE);
+
+        JFileChooser jFile = new JFileChooser();
+        int saveResult = jFile.showSaveDialog(this);
+        if (saveResult == JFileChooser.APPROVE_OPTION) {
+            File file = jFile.getSelectedFile();
+            try {
+                FileWriter fw = new FileWriter(file);
+                fw.write(headerDT);
+                fw.flush();
+                fw.close();
+                JOptionPane.showMessageDialog(this, "Please select location to save the Items file!", "Attention", JOptionPane.INFORMATION_MESSAGE);
+                saveResult = jFile.showSaveDialog(this);
+
+                if (saveResult == JFileChooser.APPROVE_OPTION) {
+                    File itemFile = jFile.getSelectedFile();
+                    FileWriter iFW = new FileWriter(itemFile);
+                    iFW.write(itemsDT);
+                    iFW.flush();
+                    iFW.close();
+
+                }
+            } catch (Exception ex) {
+
+                JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+
+            }
+
+        }
 
     }
 
@@ -456,10 +497,10 @@ public class MainFrame extends javax.swing.JFrame implements ActionListener, Lis
             allInvList.add(InvoiceHeader);
             InvoiceHeaderTable.fireTableDataChanged();
         } catch (ParseException ex) {
-            ex.printStackTrace();
 
+            JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
-        displayHeaders();
+        //displayHeaders();
     }
 
     private void createItemOk() {
@@ -483,7 +524,7 @@ public class MainFrame extends javax.swing.JFrame implements ActionListener, Lis
 
         InvoiceHeaderTable.fireTableDataChanged();
         InvoiceTotalTxt.setText("" + inv.getTotal());
-        displayHeaders();
+        //displayHeaders();
     }
 
     private int getNextInvoiceCounter() {
@@ -505,7 +546,7 @@ public class MainFrame extends javax.swing.JFrame implements ActionListener, Lis
 
         InvoiceHeaderTable.fireTableDataChanged();
         InvoiceTotalTxt.setText("" + item.getInv().getTotal());
-        displayHeaders();
+        //displayHeaders();
     }
 
     private void deleteInvoice() {
@@ -521,9 +562,10 @@ public class MainFrame extends javax.swing.JFrame implements ActionListener, Lis
         InvoiceDateTxt.setText("");
         InvoiceNumberTxt.setText("");
         InvoiceTotalTxt.setText("");
-        displayHeaders();
+        //displayHeaders();
     }
 
+    /*
     private void displayHeaders() {
         System.out.println("**********************************");
         for (InvoiceHeader hd : allInvList) {
@@ -532,4 +574,5 @@ public class MainFrame extends javax.swing.JFrame implements ActionListener, Lis
         System.out.println("====================================");
 
     }
+*/
 }

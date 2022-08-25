@@ -1,6 +1,8 @@
  
 package app.modelAug;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -76,9 +78,12 @@ public class InvoiceHeader {
     public void addNewItem(InvoiceItem item) {
         getItems().add(item);
     }
+    
     public String getDataCSV()
     {
-        return "" + getNum() + "," + getDate() + "," + getName(); 
+        DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+
+        return "" + getNum() + "," + df.format(getDate()) + "," + getName(); 
     }
 
 }
