@@ -6,13 +6,13 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class InvoiceHeader {
+public class Header {
     private int num;
     private String name;
     private Date date;
-    private ArrayList<InvoiceItem> Items; 
+    private ArrayList<Item> Items; 
 
-    public InvoiceHeader(String name, int num, Date date) {
+    public Header(String name, int num, Date date) {
         this.name = name;
         this.num = num;
         this.date = date;
@@ -42,7 +42,7 @@ public class InvoiceHeader {
         this.num = num;
     }
 
-    public ArrayList<InvoiceItem> getItems() {
+    public ArrayList<Item> getItems() {
         if (Items == null)
         {
             Items = new ArrayList(); // Lazy creation       
@@ -53,7 +53,7 @@ public class InvoiceHeader {
     @Override
     public String toString() {
         String str_var="InvoiceHeader{" + "name=" + name + ", num=" + num + ", date=" + date + '}';
-        for(InvoiceItem item: getItems())
+        for(Item item: getItems())
         {
             str_var += "\n\t" + item;
         
@@ -65,7 +65,7 @@ public class InvoiceHeader {
     public double getTotal(){
     
         double total =0.0;
-        for(InvoiceItem item: getItems()){
+        for(Item item: getItems()){
         
             total+= item.getTotal();
         }
@@ -75,7 +75,7 @@ public class InvoiceHeader {
         
     }
     
-    public void addNewItem(InvoiceItem item) {
+    public void addNewItem(Item item) {
         getItems().add(item);
     }
     

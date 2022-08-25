@@ -1,11 +1,11 @@
 package app.modelAug;
-public class InvoiceItem {
-    private InvoiceHeader inv;
+public class Item {
+    private Header inv;
     private String item;
     private int count;
     private double price;
 
-    public InvoiceItem(InvoiceHeader inv, String item, int count, double price) {
+    public Item(Header inv, String item, int count, double price) {
         this.inv = inv;
         this.item = item;
         this.count = count;
@@ -20,11 +20,11 @@ public class InvoiceItem {
         this.price = price;
     }
 
-    public InvoiceHeader getInv() {
+    public Header getInv() {
         return inv;
     }
 
-    public void setInv(InvoiceHeader inv) {
+    public void setInv(Header inv) {
         this.inv = inv;
     }
 

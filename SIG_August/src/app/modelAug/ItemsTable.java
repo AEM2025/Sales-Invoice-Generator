@@ -1,4 +1,7 @@
-
+ /*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package app.modelAug;
 
 import java.text.DateFormat;
@@ -10,14 +13,14 @@ import javax.swing.table.AbstractTableModel;
  *
  * @author AEM
  */
-public class InvoiceHeaderTable extends AbstractTableModel{
+public class ItemsTable extends AbstractTableModel{
 
-    private List<InvoiceHeader> allInvList;
+    private List<Item> allItemList;
     private DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
     
-    public InvoiceHeaderTable(List<InvoiceHeader> allInvList) {
+    public ItemsTable(List<Item> allItemList) {
     
-    this.allInvList = allInvList;
+    this.allItemList = allItemList;
     
     }
 
@@ -25,7 +28,7 @@ public class InvoiceHeaderTable extends AbstractTableModel{
     
     @Override
     public int getRowCount() {
-        return allInvList.size();
+        return allItemList.size();
     }
 
     @Override
@@ -40,31 +43,31 @@ public class InvoiceHeaderTable extends AbstractTableModel{
         switch (columnIndex)
         {
             case 0:
-                return "Invoice Number";
+                return "Item Name";
             case 1:
-                return "Customer Name";
+                return "Price";
             case 2:
-                return "Invoice Date";
+                return "Count";
             case 3:
-                return "Invoice Total";
+                return "Total";
             default:
                 return "";        
         }
     }
 
-    public List<InvoiceHeader> getAllInvList() {
-        return allInvList;
+    public List<Item> getAllItemList() {
+        return allItemList;
     }
 
     @Override
     public Class<?> getColumnClass(int columnIndex) {
             switch (columnIndex) {
             case 0:
-                return Integer.class;
+                return String.class;
             case 1:
-                return String.class;
+                return Double.class;
             case 2:
-                return String.class;
+                return Integer.class;
             case 3:
                 return Double.class;
             default:
@@ -81,22 +84,23 @@ public class InvoiceHeaderTable extends AbstractTableModel{
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-     InvoiceHeader hdRow= allInvList.get(rowIndex);
+     Item hdRow= allItemList.get(rowIndex);
      
         switch (columnIndex)
         {
             case 0:
-                return hdRow.getNum();
+                return hdRow.getItem();
             case 1:
-                return hdRow.getName();
+                return hdRow.getPrice();
             case 2:
-                return df.format(hdRow.getDate());
+                return hdRow.getCount();
             case 3:
                 return hdRow.getTotal();
             default:
-                return "";        
+                return "";
         }
     }
 
     
 }
+
